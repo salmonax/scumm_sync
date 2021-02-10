@@ -1,0 +1,53 @@
+- begin
+  .flex-container
+    - @@ft.locales.each do |locale|
+      .locale-item-container
+        .locale-heading
+          =locale
+- @@ft.synced_by_line.each_with_index do |hash, i|
+  - break if i == 4
+  .flex-container
+    - @@ft.locales.each do |locale|
+      .locale-item-container
+        .locale-heading
+          =hash[locale]
+  / - @@ft.synced[locale].each_with_index do |(k,v), i|
+  /   -break if i == 20
+  /   .locale-item 
+  /     #{v[:line]}
+
+:css 
+  .locale-heading {
+    flex-grow: 1;
+    padding: 5px;
+    margin-right: 0px;
+    border-style: none;
+    color: white;
+    background: rgb(100,100,100);
+    border-color: rgb(0,0,0);
+  }
+  .locale-item-container {
+    flex-grow: 1;
+    flex-shrink:1;
+    padding: 0px;
+    margin-right: 1px;
+    border-style: none;
+    color: black;
+    / background: rgb(200,200,200);
+    border-color: rgb(0,0,0);
+  }
+  .locale-item {
+    background: rgb(200,200,200);
+    margin-bottom: 1px;
+  }
+  .flex-container {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+    / height: 200px;
+  }
+  .flex-item {
+    background: rgb(140,100,150);
+    margin: 1px;
+    height: 80%;
+  }

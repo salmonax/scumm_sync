@@ -1,0 +1,51 @@
+- begin
+  .row-container
+    - @@ft.locales.each do |locale|
+      .row-item.heading
+        =locale
+- @@ft.synced_by_line.each_with_index do |hash,i|
+  .row-container
+    - @@ft.locales.each do |locale|
+      - if hash[locale][:speech]
+        .row-item.entry-speechful
+          %a{ :href => "#{hash[locale][:speech]}"}
+            =hash[locale][:line]
+      - else
+        .row-item.entry-speechless
+          =hash[locale][:line]
+
+:javascript
+  $(".row-container").on("touch click", ".entry-speechless", function(event) {
+    var text = $(this).text();
+    var index = $(this).index();
+    var lang = #{@@ft.locales}[index]
+    var voice = {
+      'en': 'UK English Female',
+      'de': 'Deutsch Female',
+      'fr': 'French Female',
+      'jp': 'Japanese Female',
+      'it': 'Italian Female',
+      'ru': 'Russian Female'
+    }[lang] || 'US English Female';
+
+   //console.log(voice);
+    responsiveVoice.speak(text,voice);
+    event.preventDefault();
+  });
+  $(".entry-speechful a").on("touch click", function(event) {
+    event.preventDefault();
+  });
+  $(".entry-speechful").on("touch click", function(event) {
+      event.preventDefault();
+      var link = $(this).children("a").attr("href");
+      var ipfsFolder = "https://ipfs.io/ipfs/#{@@ipfs_hash}"
+      var ipfsLink = link.replace('./scumm_speech', ipfsFolder);
+
+      audio_string = "<audio id='scumm-play' autoplay='autoplay' style='display:none;' controls='controls'><source src='"+ipfsLink+"' /></audio>"
+
+      $('#scumm-play').remove();
+      $(audio_string).appendTo('body');
+
+      // console.log(audio_string);
+      //return $().appendTo('body');
+  });

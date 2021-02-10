@@ -1,0 +1,7 @@
+.env
+.DS_Store
+public/scumm_text/*
+public/scumm_speech/*
+public/*.html
+!public/scumm_text/.keep
+!public/scumm_speech/.keep
